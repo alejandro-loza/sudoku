@@ -15,6 +15,31 @@ class AplicationSpec extends Specification {
         assert response == "hello world"
     }
 
+    void "must open a file"(){
+        setup:
+          Aplication aplication = new Aplication()
+        when:
+         def response = aplication.openFile()
+        then:
+         assert response instanceof List
+         assert response == ["4;1,4,2,3,2,3,1,4,4,2,3,1,3,1,4,2", "4;2,1,3,2,3,2,1,4,1,4,2,3,2,3,4,1"]
+    }
+
+    void "must validate the entry"(){
+        setup:"giving a list"
+         Aplication apliation = new Aplication()
+         List sudokuEntry = ["4;1,4,2,3,2,3,1,4,4,2,3,1,3,1,4,2", "4;2,1,3,2,3,2,1,4,1,4,2,3,2,3,4,1"]
+        when:
+          def response = apliation.validateEntry(sudokuEntry)
+        then:
+        assert response
+    }
+
+
+
+
+
+
 
 
 }
