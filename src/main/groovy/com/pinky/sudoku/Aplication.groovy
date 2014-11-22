@@ -21,15 +21,18 @@ class Aplication {
                   it as Integer
               }
             } else  "invalid format"//todo poner mejor respuesta
-
-
        }
 
     }
 
-    def validSize(int size, int listSize) {
-        if(Math.pow(size,2)==listSize){
-            listSize
-        }
+    boolean validSize(int size, int listSize) {
+      if((size==4 || size ==9) && Math.pow(size,2)==listSize){
+         true
+      }else false
+    }
+
+    def convertToGrid(List<Integer> entries) {
+        Integer size = Math.pow(entries.size(),0.5)
+        entries.collate(size) as int[][]
     }
 }

@@ -36,7 +36,7 @@ class AplicationSpec extends Specification {
         assert response ==[[1, 4, 2, 3, 2, 3, 1, 4, 4, 2, 3, 1, 3, 1, 4, 2], [2, 1, 3, 2, 3, 2, 1, 4, 1, 4, 2, 3, 2, 3, 4, 1]]
     }
     @Unroll
-    void "recibe a list.size: #listSize  an a size: #size and  list.size #listSize equal size *size #result "(){
+    void "recibe a list.size: #listSize  an a size: #size and  list.size #listSize equals size * size #listSize valid #result "(){
         setup:
           Aplication apliation = new Aplication()
         when:
@@ -46,13 +46,54 @@ class AplicationSpec extends Specification {
         where:
 
         size | listSize | result
-         2   |     4    |   4
-         3   |     9    |   9
-         4   |    16    |   16
-         5   |    25    |   25
-         6   |    36    |   36
-         1   |    12    |   null
+         2   |     4    |   false
+         3   |     9    |   false
+         4   |    16    |   true
+         5   |    25    |   false
+         9   |    81    |   true
+         1   |    12    |   false
     }
+
+     void "must fill a bi dimencional int arra 4x4"(){
+         setup:"giving a size of 4"
+         Aplication aplication = new Aplication()
+         and:"giving a valid list of number entries"
+           List<Integer> gridEntry = [1, 4, 2, 3, 2, 3, 1, 4, 4, 2, 3, 1, 3, 1, 4, 2]
+         when:
+           def response = aplication.convertToGrid(gridEntry)
+         then:
+           assert response == [[1, 4, 2, 3], [2, 3, 1, 4], [4, 2, 3, 1], [3, 1, 4, 2]]
+     }
+
+    void "must fill a bi dimencional int array 9x9"(){
+        setup:"giving a size of 9"
+        Aplication aplication = new Aplication()
+        and:"giving a valid list of number entries"
+        List<Integer> gridEntry = [1, 4, 2, 3, 2, 3, 1, 4, 4,
+                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
+                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
+                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
+                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
+                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
+                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
+                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
+                                   1, 4, 2, 3, 2, 3, 1, 4, 4,]
+        when:
+        def response = aplication.convertToGrid(gridEntry)
+        then:
+        assert response ==  [
+                             [1, 4, 2, 3, 2, 3, 1, 4, 4,],
+                             [1, 4, 2, 3, 2, 3, 1, 4, 4,],
+                             [1, 4, 2, 3, 2, 3, 1, 4, 4,],
+                             [1, 4, 2, 3, 2, 3, 1, 4, 4,],
+                             [1, 4, 2, 3, 2, 3, 1, 4, 4,],
+                             [1, 4, 2, 3, 2, 3, 1, 4, 4,],
+                             [1, 4, 2, 3, 2, 3, 1, 4, 4,],
+                             [1, 4, 2, 3, 2, 3, 1, 4, 4,],
+                             [1, 4, 2, 3, 2, 3, 1, 4, 4,] ]
+    }
+
+
 
 
 
