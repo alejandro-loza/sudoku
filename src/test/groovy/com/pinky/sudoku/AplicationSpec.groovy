@@ -93,6 +93,22 @@ class AplicationSpec extends Specification {
                              [1, 4, 2, 3, 2, 3, 1, 4, 4,] ]
     }
 
+    void "must find its sub grid partners"(){
+        setup:"giving an 9x9 matrix lenght"
+        Aplication aplication = new Aplication()
+        Integer length = 9
+        and:"giving a current  cordinate"
+          def row = 2
+          def col = 2
+
+        when:
+        def response = aplication.findGridPartners(row,col,3)
+        then:
+        assert response == [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1]]
+
+
+    }
+
 
 
 
