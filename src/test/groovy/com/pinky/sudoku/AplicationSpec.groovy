@@ -136,17 +136,24 @@ class AplicationSpec extends Specification {
 
 
     }
-
-    void "giving a valid cuadratic lenght mus track its limits"(){
+    @Unroll
+    void "giving a  cuadratic lenght #lenght must  find its axis #axis"(){
         setup:
         Aplication aplication = new Aplication()
-        def matrizLeng = 9
         when:
-          def response = aplication.findAxis(matrizLeng)
+          def response = aplication.findAxis(lenght)
         then:
-         assert response ==  [0,3,6,9]
+         assert response ==  axis
+        where:
 
+               lenght |    axis
+                  9   |  [0,3,6,9]
+                  4   |  [0,2,4]
     }
+
+
+
+
 
 
 
