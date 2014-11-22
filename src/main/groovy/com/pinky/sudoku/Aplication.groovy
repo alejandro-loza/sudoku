@@ -38,8 +38,8 @@ class Aplication {
 
     def findGridPartners(int row, int col, int length) {
         List vecinos = []
-        def fact = 2
-        while(fact !=0){
+        def fact = length-1
+        println length
 
             def (int rowStart, int rowFinish, int colStart, int colFinish) = setIndex(row, fact, length, col)
 
@@ -50,17 +50,26 @@ class Aplication {
                     }
                 }
             }
-            fact--
-        }
 
         vecinos
     }
 
     private List setIndex(int row, int fact, int length, int col) {
         int rowStart = Math.max(row - fact, 0)
-        int rowFinish = Math.min(row + fact, length - fact)
+        int rowFinish = Math.min(row + fact, length - 1)
         int colStart = Math.max(col - fact, 0)
-        int colFinish = Math.min(col + fact, length - fact)
+        int colFinish = Math.min(col + fact, length - 1)
         [rowStart, rowFinish, colStart, colFinish]
+    }
+
+    def findAxis(def matrizLenght) {
+        List<Integer> scala = [0]
+        Integer factor = Math.pow(matrizLenght,0.5).intValue()
+        while(factor <=9){
+            scala.add(factor)
+            factor+=factor
+        }
+        scala
+
     }
 }

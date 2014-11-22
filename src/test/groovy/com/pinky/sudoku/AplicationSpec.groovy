@@ -93,19 +93,58 @@ class AplicationSpec extends Specification {
                              [1, 4, 2, 3, 2, 3, 1, 4, 4,] ]
     }
 
-    void "must find its sub grid partners"(){
+    void "must find its sub grid partners in 9x9 matrix"(){
         setup:"giving an 9x9 matrix lenght"
         Aplication aplication = new Aplication()
         Integer length = 9
         and:"giving a current  cordinate"
-          def row = 2
-          def col = 2
+          def row = 1
+          def col = 1
 
         when:
-        def response = aplication.findGridPartners(row,col,3)
+        def response = aplication.findGridPartners(row,col,Math.pow(length,0.5).intValue())
         then:
         assert response == [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1]]
+    }
 
+    void "must find its sub grid partners in 9x9 matrix and "(){
+        setup:"giving an 9x9 matrix lenght"
+        Aplication aplication = new Aplication()
+        Integer length = 9
+        and:"giving a current  cordinate"
+        def row = 3
+        def col = 3
+
+        when:
+        def response = aplication.findGridPartners(row,col,Math.pow(length,0.5).intValue())
+        then:
+        assert response == [[3,4],[3,5],[4,4],[4,5],[4,6],[5,4],[5,5],[5,6]]
+    }
+
+    void "must find its sub grid partners in 4x4 matrix"(){
+        setup:"giving an 9x9 matrix lenght"
+        Aplication aplication = new Aplication()
+        Integer length = 4
+        and:"giving a current  cordinate"
+        def row = 2
+        def col = 2
+
+        when:
+        def response = aplication.findGridPartners(row,col,Math.pow(length,0.5).intValue())
+        then:
+        assert response == [[2,3],[3,2],[3,3]]
+
+
+    }
+
+    void "giving a valid cuadratic lenght mus track its limits"(){
+        setup:
+        Aplication aplication = new Aplication()
+        def matrizLeng = 9
+        when:
+          def response = aplication.findAxis(matrizLeng)
+        then:
+         assert response ==  [0,3,6,9]
 
     }
 
