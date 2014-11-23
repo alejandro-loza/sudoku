@@ -148,11 +148,15 @@ class Aplication {
         [finalLimitRow, finalLimitCol]
     }
 
-    def findVerticalPartners( int col, Integer[][]matriz ) {
-        List response =[]
-         0..matriz.length.eachWithIndex{ i ->
-          response.addAll(matriz[i][col])
+    def findVerticalPartners( def col, Integer[][]matriz ) {
+        def counter = 0
+        List response = []
+         while(counter<matriz.length){
+          println "row" +matriz[counter][col]
+         response << matriz[counter][col]
+             counter++
         }
+        response
     }
 
     List <Integer>getGridValues(ArrayList<List<Integer>> coordinates, Integer[][] matrix) {

@@ -263,6 +263,11 @@ class AplicationSpec extends Specification {
                [6, 1, 7, 9, 5, 4, 2, 8, 3,],//7
                [9, 5, 4, 8, 2, 3, 1, 7, 6,] ]//8
         and:"givin a col"
+          Integer col = 1
+        when:
+         def response = aplication.findVerticalPartners(col,matrix)
+        then:
+         assert response == [4,7,6,9,8,2,3,1,5]
 
 
 
