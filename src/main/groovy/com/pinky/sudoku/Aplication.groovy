@@ -3,8 +3,22 @@ package com.pinky.sudoku
  * Created by pinks on 21/11/14.
  */
 class Aplication {
-    def hello(){
-        "hello world"
+    def main(){
+       def response = validateEntry(openFile())
+        response.collect{
+            if( response instanceof List<Integer>) {
+                def grid = convertToGrid(response)
+                grid.eachWithIndex { def row, int i ->
+                    row.eachWithIndex{ def cell, int j ->
+                        findNumberInList(grid[i][j],getGridValues(findGridPartners(i,j,grid.length)))
+
+                    }
+
+                }
+
+            } else  println false
+        }
+
     }
 
     def openFile() {
@@ -20,7 +34,7 @@ class Aplication {
               list.collect{
                   it as Integer
               }
-            } else  "invalid format"//todo poner mejor respuesta
+            }
        }
 
     }
@@ -37,24 +51,18 @@ class Aplication {
     }
 
     def findGridPartners(int row, int col, int length) {
-        List vecinos = []
+        List partners = []
         Integer fact = Math.pow(length,0.5).intValue()-1
-
-        println "row $row col $col matriz $length"
         List limits = findLimits(row, col,findAxis(length))
-
             def (int rowStart, int colStart, int rowFinish, int colFinish) = setIndex(row,  col, fact, length, limits)
-
-           println "rowStart $rowStart row $rowFinish colStart $colStart colFinish $colFinish"
             for ( int curRow = rowStart; curRow <= rowFinish; curRow++ ) {
                 for ( int curCol = colStart; curCol <= colFinish; curCol++ ) {
                     if([curRow,curCol] != [row,col]){
-                        vecinos << [curRow,curCol]
+                        partners << [curRow,curCol]
                     }
                 }
             }
-
-        vecinos
+        partners
     }
 
     private List setIndex(int row, int col, int fact, int length, List<List> limits ) {
@@ -63,19 +71,13 @@ class Aplication {
         def inferiorLimitCol = limits.first().get(1)
         def superiorLimitRow = limits.get(1).get(0)
         def superiorLimitCol = limits.get(1).get(1)
-      println limits
-        println "fact" + fact
-        println "inferiorLimitRow" + inferiorLimitRow
-        println "inferiorLimitCol" + inferiorLimitCol
-        println "superiorLimitRow" + superiorLimitRow
-        println "superiorLimitCol" + superiorLimitCol
+
 
         int rowStart = Math.max(row - 1, inferiorLimitRow) // limite inferior row
         int colStart = Math.max(col - 1, inferiorLimitCol) // limite unferior col
         int rowFinish = Math.min(row + fact, superiorLimitRow - 1)//limitsuperior row
-        int colFinish = Math.min(col + fact, superiorLimitRow - 1)//limitesuperior col end
+        int colFinish = Math.min(col + fact, superiorLimitCol - 1)//limitesuperior col end
 
-        println "SET INDEX rowStart $rowStart colStart $colStart rowFinish $rowFinish colFinish $colFinish"
         [rowStart, colStart, rowFinish, colFinish]
     }
 
@@ -124,5 +126,23 @@ class Aplication {
          def finalLimitCol = axis.findAll { it > col }.min()?:col
 
         [finalLimitRow, finalLimitCol]
+    }
+
+    def findVerticalPartners(int row, int col, int[][]matriz ) {
+        List response =[]
+         0..8.eachWithIndex{ i ->
+          response.addAll(matriz[i][col])
+        }
+    }
+
+    List getGridValues(List<ArrayList<Integer>> coordinates, int[][] matrix) {
+        coordinates.collect{i,j ->
+            matrix[i][j]
+
+        }
+    }
+
+    boolean findNumberInList(int numberToFind, List<Integer> numberList) {
+        numberList.contains(numberToFind)
     }
 }

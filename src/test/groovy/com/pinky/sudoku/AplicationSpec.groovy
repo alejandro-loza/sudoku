@@ -8,13 +8,14 @@ import spock.lang.Unroll
  * Created by pinks on 21/11/14.
  */
 class AplicationSpec extends Specification {
+    @Ignore
     void "must response an hello world"(){
         setup:
           Aplication aplication = new Aplication()
         when:
-         def response = aplication.hello()
+         def response = aplication.main()
         then:
-        assert response == "hello world"
+        assert response == "main world"
     }
 
     void "must open a file"(){
@@ -72,7 +73,7 @@ class AplicationSpec extends Specification {
         and:"giving a valid list of number entries"
         List<Integer> gridEntry = [1, 4, 2, 3, 2, 3, 1, 4, 4,
                                    1, 4, 2, 3, 2, 3, 1, 4, 4,
-                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
+                                   1, 4, 0, 3, 2, 3, 1, 4, 4,
                                    1, 4, 2, 3, 2, 3, 1, 4, 4,
                                    1, 4, 2, 3, 2, 3, 1, 4, 4,
                                    1, 4, 2, 3, 2, 3, 1, 4, 4,
@@ -85,13 +86,16 @@ class AplicationSpec extends Specification {
         assert response ==  [
                              [1, 4, 2, 3, 2, 3, 1, 4, 4,],
                              [1, 4, 2, 3, 2, 3, 1, 4, 4,],
-                             [1, 4, 2, 3, 2, 3, 1, 4, 4,],
+                             [1, 4, 0, 3, 2, 3, 1, 4, 4,],
                              [1, 4, 2, 3, 2, 3, 1, 4, 4,],
                              [1, 4, 2, 3, 2, 3, 1, 4, 4,],
                              [1, 4, 2, 3, 2, 3, 1, 4, 4,],
                              [1, 4, 2, 3, 2, 3, 1, 4, 4,],
                              [1, 4, 2, 3, 2, 3, 1, 4, 4,],
                              [1, 4, 2, 3, 2, 3, 1, 4, 4,] ]
+        println "horizontal " + response[0][2]
+
+
     }
 //    @Ignore
     void "must find its sub grid partners in 9x9 matrix"(){
@@ -176,33 +180,55 @@ class AplicationSpec extends Specification {
              1  |  1  |  [0,2,4]   |     [0,0]    | [2,2]
              3  |  3  |  [0,2,4]   |     [2,2]    | [4,4]
              0  |  3  |  [0,2,4]   |     [0,2]    | [2,4]
+             7  |  4  |  [0,3,6,9] |     [6,3]    | [9,6]
     }
-//
-//    void "giving a row #row  col #col and lenght #lenght ,must find an vertical partners #result"(){
-//        setup:
-//        Aplication aplication = new Aplication()
-//        when:
-//        def response = aplication.findVerticalPartners(row,col,axis)
-//        then:
-//        assert response == [inicialLimit,finalLimit]
-//        where:
-//
-//    }
+    void "given a list of partner coordinates must get its values"(){
+        setup:"given a matrix"
+        Aplication aplication = new Aplication()
+        int[][] matrix = [
+               //0  1  2  3  4  5  6  7  8
+                [1, 4, 9, 2, 7, 5, 6, 3, 8,],//0
+                [5, 7, 3, 6, 1, 8, 9, 2, 4,],//1
+                [8, 6, 2, 3, 4, 9, 5, 1, 7,],//2
+                [4, 9, 5, 7, 3, 2, 8, 6, 1,],//3
+                [7, 8, 6, 5, 9, 1, 3, 4, 2,],//4
+                [3, 2, 1, 4, 8, 6, 7, 9, 5,],//5
+                [2, 3, 8, 1, 6, 7, 4, 5, 9,],//6
+                [6, 1, 7, 9, 5, 4, 2, 8, 3,],//7
+                [9, 5, 4, 8, 2, 3, 1, 7, 6,] ]//8
+        and:"a valid set list of partner coordinates"
+        def partners= [[3,4],[3,5],[4,3],[4,4],[4,5],[5,3],[5,4],[5,5]]
+        when:
+         def response = aplication.getGridValues(partners,matrix)
+        then:
+        assert response == [3,2,5,9,1,4, 8, 6,]
+    }
 
 
+    void "must find if a number that doesn't repit must respon false"(){
+      setup:"giving a number"
+      Aplication aplication = new Aplication()
+       Integer inputNumber = 7
+      and:"number list"
+        def numberList = [3,2,5,9,1,4, 8, 6,]
+      when:
+       def response = aplication.findNumberInList(inputNumber,numberList)
+      then:
+        assert response == false
+    }
 
+    void "must find if a number that repits an response true"(){
+        setup:"giving a number"
+        Aplication aplication = new Aplication()
+        Integer inputNumber = 9
+        and:"number list"
+        def numberList = [3,2,5,9,1,4, 8, 6,]
+        when:
+        def response = aplication.findNumberInList(inputNumber,numberList)
+        then:
+        assert response == true
 
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 
