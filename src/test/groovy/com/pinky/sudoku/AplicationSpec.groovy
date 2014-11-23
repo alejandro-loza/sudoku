@@ -1,5 +1,6 @@
 package com.pinky.sudoku
 
+import spock.lang.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -92,7 +93,7 @@ class AplicationSpec extends Specification {
                              [1, 4, 2, 3, 2, 3, 1, 4, 4,],
                              [1, 4, 2, 3, 2, 3, 1, 4, 4,] ]
     }
-
+//    @Ignore
     void "must find its sub grid partners in 9x9 matrix"(){
         setup:"giving an 9x9 matrix lenght"
         Aplication aplication = new Aplication()
@@ -102,11 +103,11 @@ class AplicationSpec extends Specification {
           def col = 1
 
         when:
-        def response = aplication.findGridPartners(row,col,Math.pow(length,0.5).intValue())
+        def response = aplication.findGridPartners(row,col,length)
         then:
-        assert response == [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1]]
+        assert response == [[0,0],[0,1],[0,2],[1,0],[1,2],[2,0],[2,1],[2,2]]
     }
-
+//    @Ignore
     void "must find its sub grid partners in 9x9 matrix and "(){
         setup:"giving an 9x9 matrix lenght"
         Aplication aplication = new Aplication()
@@ -116,9 +117,9 @@ class AplicationSpec extends Specification {
         def col = 3
 
         when:
-        def response = aplication.findGridPartners(row,col,Math.pow(length,0.5).intValue())
+        def response = aplication.findGridPartners(row,col,length)
         then:
-        assert response == [[3,4],[3,5],[4,4],[4,5],[4,6],[5,4],[5,5],[5,6]]
+        assert response == [[3,4],[3,5],[4,3],[4,4],[4,5],[5,3],[5,4],[5,5]]
     }
 
     void "must find its sub grid partners in 4x4 matrix"(){
@@ -130,7 +131,7 @@ class AplicationSpec extends Specification {
         def col = 2
 
         when:
-        def response = aplication.findGridPartners(row,col,Math.pow(length,0.5).intValue())
+        def response = aplication.findGridPartners(row,col,length)
         then:
         assert response == [[2,3],[3,2],[3,3]]
 
@@ -150,6 +151,47 @@ class AplicationSpec extends Specification {
                   9   |  [0,3,6,9]
                   4   |  [0,2,4]
     }
+    @Unroll
+    void "giving an axis #axis and a actual position row #row col #col  must find an inicial limit #inicialLimit and a final limit #finalLimit"(){
+        setup:
+          Aplication aplication = new Aplication()
+        when:
+          def response = aplication.findLimits(row,col,axis)
+        then:
+          assert response == [inicialLimit,finalLimit]
+        where:
+
+            row | col |     axis   | inicialLimit |finalLimit
+             1  |  1  |  [0,3,6,9] |     [0,0]    | [3,3]
+             4  |  4  |  [0,3,6,9] |     [3,3]    | [6,6]
+             3  |  3  |  [0,3,6,9] |     [3,3]    | [6,6]
+             0  |  0  |  [0,3,6,9] |     [0,0]    | [3,3]
+             3  |  3  |  [0,3,6,9] |     [3,3]    | [6,6]
+             5  |  5  |  [0,3,6,9] |     [3,3]    | [6,6]
+             0  |  4  |  [0,3,6,9] |     [0,3]    | [3,6]
+             3  |  4  |  [0,3,6,9] |     [3,3]    | [6,6]
+             1  |  5  |  [0,3,6,9] |     [0,3]    | [3,6]
+             8  |  8  |  [0,3,6,9] |     [6,6]    | [9,9]
+             0  |  5  |  [0,3,6,9] |     [0,3]    | [3,6]
+             1  |  1  |  [0,2,4]   |     [0,0]    | [2,2]
+             3  |  3  |  [0,2,4]   |     [2,2]    | [4,4]
+             0  |  3  |  [0,2,4]   |     [0,2]    | [2,4]
+    }
+//
+//    void "giving a row #row  col #col and lenght #lenght ,must find an vertical partners #result"(){
+//        setup:
+//        Aplication aplication = new Aplication()
+//        when:
+//        def response = aplication.findVerticalPartners(row,col,axis)
+//        then:
+//        assert response == [inicialLimit,finalLimit]
+//        where:
+//
+//    }
+
+
+
+
 
 
 
