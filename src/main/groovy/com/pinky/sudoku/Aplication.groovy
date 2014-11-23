@@ -5,20 +5,40 @@ package com.pinky.sudoku
 class Aplication {
     def main(){
        def response = validateEntry(openFile())
-        response.collect{
-            if( response instanceof List<Integer>) {
-                def grid = convertToGrid(response)
-                grid.eachWithIndex { def row, int i ->
-                    row.eachWithIndex{ def cell, int j ->
-                        findNumberInList(grid[i][j],getGridValues(findGridPartners(i,j,grid.length)))
+        if(response){
+        def grid
+            response.collect{ entry ->
+                  def resp
+                    grid =  convertToGrid(entry)
+                    println "grid ->" + grid
+                    grid.eachWithIndex { def row, int i ->
+                         int j =0
+                           while(j<=i){
+                               if( evaluateCurrentRow(i,j,row,grid)){
+                                   j++
+                                   resp = true
+                               }
+                               else{
+                                   resp = false
+                                   break
+                               }
+                           }
 
                     }
+                resp
+            }
+        }else println "invalid entry"
 
-                }
+    }
 
-            } else  println false
-        }
-
+    private void evaluateCurrentRow(int i,int j,def row,def grid) {
+        def response = []
+         response.addAll(findNumberInList(grid[i][j], getGridValues(findGridPartners(i, j, grid.length), grid)))
+//         response.addAll(findNumberInList(grid[i][j], row))
+//        response.addAll(findVerticalPartners(i, j, grid)
+        if(response.contains(true)){
+            false
+        }else true
     }
 
     def openFile() {
@@ -26,7 +46,7 @@ class Aplication {
         file.readLines() as List
     }
 
-    def validateEntry(List<String> entry) {
+    List<Integer> validateEntry(List<String> entry) {
        entry.collect {
             List<Integer> list =it.tokenize(',;') as List<Integer>
             Integer size = list.remove(0) as Integer
@@ -34,7 +54,7 @@ class Aplication {
               list.collect{
                   it as Integer
               }
-            }
+            }else null
        }
 
     }
@@ -47,10 +67,10 @@ class Aplication {
 
     def convertToGrid(List<Integer> entries) {
         Integer size = Math.pow(entries.size(),0.5)
-        entries.collate(size) as int[][]
+        entries.collate(size) as Integer[][]
     }
 
-    def findGridPartners(int row, int col, int length) {
+    List<List<Integer>> findGridPartners(int row, int col, int length) {
         List partners = []
         Integer fact = Math.pow(length,0.5).intValue()-1
         List limits = findLimits(row, col,findAxis(length))
@@ -128,21 +148,20 @@ class Aplication {
         [finalLimitRow, finalLimitCol]
     }
 
-    def findVerticalPartners(int row, int col, int[][]matriz ) {
+    def findVerticalPartners( int col, Integer[][]matriz ) {
         List response =[]
-         0..8.eachWithIndex{ i ->
+         0..matriz.length.eachWithIndex{ i ->
           response.addAll(matriz[i][col])
         }
     }
 
-    List getGridValues(List<ArrayList<Integer>> coordinates, int[][] matrix) {
+    List <Integer>getGridValues(ArrayList<List<Integer>> coordinates, Integer[][] matrix) {
         coordinates.collect{i,j ->
             matrix[i][j]
-
         }
     }
 
-    boolean findNumberInList(int numberToFind, List<Integer> numberList) {
+    boolean findNumberInList(Integer numberToFind, List<Integer> numberList) {
         numberList.contains(numberToFind)
     }
 }

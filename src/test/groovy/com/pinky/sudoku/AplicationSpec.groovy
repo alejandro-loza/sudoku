@@ -8,14 +8,14 @@ import spock.lang.Unroll
  * Created by pinks on 21/11/14.
  */
 class AplicationSpec extends Specification {
-    @Ignore
+
     void "must response an hello world"(){
         setup:
           Aplication aplication = new Aplication()
         when:
          def response = aplication.main()
         then:
-        assert response == "main world"
+        assert !response
     }
 
     void "must open a file"(){
@@ -36,6 +36,7 @@ class AplicationSpec extends Specification {
           def response = apliation.validateEntry(sudokuEntry)
         then:
         assert response ==[[1, 4, 2, 3, 2, 3, 1, 4, 4, 2, 3, 1, 3, 1, 4, 2], [2, 1, 3, 2, 3, 2, 1, 4, 1, 4, 2, 3, 2, 3, 4, 1]]
+        assert response instanceof List<Integer>
     }
     @Unroll
     void "recibe a list.size: #listSize  an a size: #size and  list.size #listSize equals size * size #listSize valid #result "(){
@@ -110,6 +111,22 @@ class AplicationSpec extends Specification {
         def response = aplication.findGridPartners(row,col,length)
         then:
         assert response == [[0,0],[0,1],[0,2],[1,0],[1,2],[2,0],[2,1],[2,2]]
+        assert response instanceof List<List<Integer>>
+    }
+
+    void "must find its sub grid partners in 4x4 matrix with 0,0"(){
+        setup:"giving an 4x4 matrix lenght"
+        Aplication aplication = new Aplication()
+        Integer length = 4
+        and:"giving a current  cordinate"
+        def row = 0
+        def col = 0
+
+        when:
+        def response = aplication.findGridPartners(row,col,length)
+        then:
+        assert response == [[0,1],[1,0],[1,1]]
+        assert response instanceof List<List<Integer>>
     }
 //    @Ignore
     void "must find its sub grid partners in 9x9 matrix and "(){
@@ -124,6 +141,7 @@ class AplicationSpec extends Specification {
         def response = aplication.findGridPartners(row,col,length)
         then:
         assert response == [[3,4],[3,5],[4,3],[4,4],[4,5],[5,3],[5,4],[5,5]]
+        assert response instanceof List<List<Integer>>
     }
 
     void "must find its sub grid partners in 4x4 matrix"(){
@@ -185,7 +203,7 @@ class AplicationSpec extends Specification {
     void "given a list of partner coordinates must get its values"(){
         setup:"given a matrix"
         Aplication aplication = new Aplication()
-        int[][] matrix = [
+        Integer[][] matrix = [
                //0  1  2  3  4  5  6  7  8
                 [1, 4, 9, 2, 7, 5, 6, 3, 8,],//0
                 [5, 7, 3, 6, 1, 8, 9, 2, 4,],//1
@@ -227,6 +245,26 @@ class AplicationSpec extends Specification {
         def response = aplication.findNumberInList(inputNumber,numberList)
         then:
         assert response == true
+
+    }
+
+    void "must respond a matrix column"(){
+       setup:"givin a matrix"
+        Aplication aplication = new Aplication()
+        Integer[][] matrix = [
+               //0  1  2  3  4  5  6  7  8
+               [1, 4, 9, 2, 7, 5, 6, 3, 8,],//0
+               [5, 7, 3, 6, 1, 8, 9, 2, 4,],//1
+               [8, 6, 2, 3, 4, 9, 5, 1, 7,],//2
+               [4, 9, 5, 7, 3, 2, 8, 6, 1,],//3
+               [7, 8, 6, 5, 9, 1, 3, 4, 2,],//4
+               [3, 2, 1, 4, 8, 6, 7, 9, 5,],//5
+               [2, 3, 8, 1, 6, 7, 4, 5, 9,],//6
+               [6, 1, 7, 9, 5, 4, 2, 8, 3,],//7
+               [9, 5, 4, 8, 2, 3, 1, 7, 6,] ]//8
+        and:"givin a col"
+
+
 
     }
 
