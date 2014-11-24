@@ -71,15 +71,8 @@ class GridSpec extends Specification {
         setup:"giving a size of 9"
         Grid aplication = new Grid()
         and:"giving a valid list of number entries"
-        List<Integer> gridEntry = [1, 4, 2, 3, 2, 3, 1, 4, 4,
-                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
-                                   1, 4, 0, 3, 2, 3, 1, 4, 4,
-                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
-                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
-                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
-                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
-                                   1, 4, 2, 3, 2, 3, 1, 4, 4,
-                                   1, 4, 2, 3, 2, 3, 1, 4, 4,]
+        List<Integer> gridEntry = 7,1,98,3,4,2,5,6,6,4,81,5,2,7,9,3,2,3,5,7,9,6,4,8,1,8,9,2,5,6,1,3,4,7,4,6,7,2,8,3,5,1,9,3,5,1,4,7,9,8,6,2,9,7,4,3,1,8,6,2,5,5,8,6,9,2,7,1,3,4,1,2,3,6,4,5,9,7,8
+
         when:
         def response = aplication.convertToGrid(gridEntry)
         then:
