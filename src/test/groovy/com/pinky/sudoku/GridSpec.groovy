@@ -1,17 +1,16 @@
 package com.pinky.sudoku
 
-import spock.lang.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
 
 /**
  * Created by pinks on 21/11/14.
  */
-class AplicationSpec extends Specification {
+class GridSpec extends Specification {
 
     void "must response an hello world"(){
         setup:
-          Aplication aplication = new Aplication()
+          Grid aplication = new Grid()
         when:
          def response = aplication.main()
         then:
@@ -20,7 +19,7 @@ class AplicationSpec extends Specification {
 
     void "must open a file"(){
         setup:
-          Aplication aplication = new Aplication()
+          Grid aplication = new Grid()
         when:
          def response = aplication.openFile()
         then:
@@ -30,7 +29,7 @@ class AplicationSpec extends Specification {
 
     void "must validate the entry"(){
         setup:"giving a list"
-         Aplication apliation = new Aplication()
+         Grid apliation = new Grid()
          List sudokuEntry = ["4;1,4,2,3,2,3,1,4,4,2,3,1,3,1,4,2", "4;2,1,3,2,3,2,1,4,1,4,2,3,2,3,4,1"]
         when:
           def response = apliation.validateEntry(sudokuEntry)
@@ -41,7 +40,7 @@ class AplicationSpec extends Specification {
     @Unroll
     void "recibe a list.size: #listSize  an a size: #size and  list.size #listSize equals size * size #listSize valid #result "(){
         setup:
-          Aplication apliation = new Aplication()
+          Grid apliation = new Grid()
         when:
           def response = apliation.validSize(size,listSize)
         then:
@@ -59,7 +58,7 @@ class AplicationSpec extends Specification {
 
      void "must fill a bi dimencional int arra 4x4"(){
          setup:"giving a size of 4"
-         Aplication aplication = new Aplication()
+         Grid aplication = new Grid()
          and:"giving a valid list of number entries"
            List<Integer> gridEntry = [1, 4, 2, 3, 2, 3, 1, 4, 4, 2, 3, 1, 3, 1, 4, 2]
          when:
@@ -70,7 +69,7 @@ class AplicationSpec extends Specification {
 
     void "must fill a bi dimencional int array 9x9"(){
         setup:"giving a size of 9"
-        Aplication aplication = new Aplication()
+        Grid aplication = new Grid()
         and:"giving a valid list of number entries"
         List<Integer> gridEntry = [1, 4, 2, 3, 2, 3, 1, 4, 4,
                                    1, 4, 2, 3, 2, 3, 1, 4, 4,
@@ -101,7 +100,7 @@ class AplicationSpec extends Specification {
 //    @Ignore
     void "must find its sub grid partners in 9x9 matrix"(){
         setup:"giving an 9x9 matrix lenght"
-        Aplication aplication = new Aplication()
+        Grid aplication = new Grid()
         Integer length = 9
         and:"giving a current  cordinate"
           def row = 1
@@ -116,7 +115,7 @@ class AplicationSpec extends Specification {
 
     void "must find its sub grid partners in 4x4 matrix with 0,0"(){
         setup:"giving an 4x4 matrix lenght"
-        Aplication aplication = new Aplication()
+        Grid aplication = new Grid()
         Integer length = 4
         and:"giving a current  cordinate"
         def row = 0
@@ -131,7 +130,7 @@ class AplicationSpec extends Specification {
 //    @Ignore
     void "must find its sub grid partners in 9x9 matrix and "(){
         setup:"giving an 9x9 matrix lenght"
-        Aplication aplication = new Aplication()
+        Grid aplication = new Grid()
         Integer length = 9
         and:"giving a current  cordinate"
         def row = 3
@@ -146,7 +145,7 @@ class AplicationSpec extends Specification {
 
     void "must find its sub grid partners in 4x4 matrix"(){
         setup:"giving an 9x9 matrix lenght"
-        Aplication aplication = new Aplication()
+        Grid aplication = new Grid()
         Integer length = 4
         and:"giving a current  cordinate"
         def row = 2
@@ -162,7 +161,7 @@ class AplicationSpec extends Specification {
     @Unroll
     void "giving a  cuadratic lenght #lenght must  find its axis #axis"(){
         setup:
-        Aplication aplication = new Aplication()
+        Grid aplication = new Grid()
         when:
           def response = aplication.findAxis(lenght)
         then:
@@ -176,7 +175,7 @@ class AplicationSpec extends Specification {
     @Unroll
     void "giving an axis #axis and a actual position row #row col #col  must find an inicial limit #inicialLimit and a final limit #finalLimit"(){
         setup:
-          Aplication aplication = new Aplication()
+          Grid aplication = new Grid()
         when:
           def response = aplication.findLimits(row,col,axis)
         then:
@@ -202,7 +201,7 @@ class AplicationSpec extends Specification {
     }
     void "given a list of partner coordinates must get its values"(){
         setup:"given a matrix"
-        Aplication aplication = new Aplication()
+        Grid aplication = new Grid()
         Integer[][] matrix = [
                //0  1  2  3  4  5  6  7  8
                 [1, 4, 9, 2, 7, 5, 6, 3, 8,],//0
@@ -225,7 +224,7 @@ class AplicationSpec extends Specification {
 
     void "must find if a number that doesn't repit must respon false"(){
       setup:"giving a number"
-      Aplication aplication = new Aplication()
+      Grid aplication = new Grid()
        Integer inputNumber = 7
       and:"number list"
         def numberList = [3,2,5,9,1,4, 8, 6,]
@@ -237,7 +236,7 @@ class AplicationSpec extends Specification {
 
     void "must find if a number that repits an response true"(){
         setup:"giving a number"
-        Aplication aplication = new Aplication()
+        Grid aplication = new Grid()
         Integer inputNumber = 9
         and:"number list"
         def numberList = [3,2,5,9,1,4, 8, 6,]
@@ -250,7 +249,7 @@ class AplicationSpec extends Specification {
 
     void "must respond a matrix column"(){
        setup:"givin a matrix"
-        Aplication aplication = new Aplication()
+        Grid aplication = new Grid()
         Integer[][] matrix = [
                //0  1  2  3  4  5  6  7  8
                [1, 4, 9, 2, 7, 5, 6, 3, 8,],//0

@@ -2,7 +2,7 @@ package com.pinky.sudoku
 /**
  * Created by pinks on 21/11/14.
  */
-class Aplication {
+class Grid {
     def main(){
        def response = validateEntry(openFile())
         if(response){
