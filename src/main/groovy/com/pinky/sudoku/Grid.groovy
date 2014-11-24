@@ -33,8 +33,8 @@ class Grid {
 
     private boolean evaluateCurrentRow(int i,int j,List<Integer> row,Integer[][] grid) {
         def response = []
-        response.addAll(findNumberInList(grid[i][j], getGridValues(findGridPartners(i, j, grid.length), grid)))
         row.remove(j)
+        response.addAll(findNumberInList(grid[i][j], getGridValues(findGridPartners(i, j, grid.length), grid)))
         response.addAll(findNumberInList(grid[i][j], row))
         response.addAll(findNumberInList(grid[i][j],findVerticalPartners(i, j, grid)))
         if(response.contains(true)){
@@ -75,7 +75,7 @@ class Grid {
         List partners = []
         Integer fact = Math.pow(length,0.5).intValue()-1
         List limits = findLimits(row, col,findAxis(length))
-            def (int rowStart, int colStart, int rowFinish, int colFinish) = setIndex(row,  col, fact, length, limits)
+            def (int rowStart, int colStart, int rowFinish, int colFinish) = setIndex(row,  col, fact, limits)
             for ( int curRow = rowStart; curRow <= rowFinish; curRow++ ) {
                 for ( int curCol = colStart; curCol <= colFinish; curCol++ ) {
                     if([curRow,curCol] != [row,col]){
@@ -86,7 +86,7 @@ class Grid {
         partners
     }
 
-    private List setIndex(int row, int col, int fact, int length, List<List> limits ) {
+    private List setIndex(int row, int col, int fact, List<List> limits ) {
 
         def inferiorLimitRow = limits.first().get(0)
         def inferiorLimitCol = limits.first().get(1)
