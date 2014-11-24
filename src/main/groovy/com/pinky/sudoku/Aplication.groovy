@@ -9,33 +9,34 @@ class Aplication {
         def grid
             response.collect{ entry ->
                   def resp
-                    grid =  convertToGrid(entry)
-                    println "grid ->" + grid
+                    grid = convertToGrid(entry)
+                    grid.each {println it}
                     grid.eachWithIndex { def row, int i ->
-                         int j =0
-                           while(j<=i){
-                               if( evaluateCurrentRow(i,j,row,grid)){
-                                   j++
-                                   resp = true
-                               }
-                               else{
-                                   resp = false
-                                   break
-                               }
-                           }
-
+                        int j =0
+                        while(j<=row.length-1 && resp != false ){
+                            if( evaluateCurrentRow(i,j,row as List<Integer>,grid)){
+                                j++
+                                resp = true
+                            }
+                            else{
+                                resp = false
+                                break
+                            }
+                        }
                     }
+                println resp
                 resp
             }
         }else println "invalid entry"
 
     }
 
-    private void evaluateCurrentRow(int i,int j,def row,def grid) {
+    private boolean evaluateCurrentRow(int i,int j,List<Integer> row,Integer[][] grid) {
         def response = []
-         response.addAll(findNumberInList(grid[i][j], getGridValues(findGridPartners(i, j, grid.length), grid)))
-//         response.addAll(findNumberInList(grid[i][j], row))
-//        response.addAll(findVerticalPartners(i, j, grid)
+        response.addAll(findNumberInList(grid[i][j], getGridValues(findGridPartners(i, j, grid.length), grid)))
+        row.remove(j)
+        response.addAll(findNumberInList(grid[i][j], row))
+        response.addAll(findNumberInList(grid[i][j],findVerticalPartners(i, j, grid)))
         if(response.contains(true)){
             false
         }else true
@@ -148,12 +149,13 @@ class Aplication {
         [finalLimitRow, finalLimitCol]
     }
 
-    def findVerticalPartners( def col, Integer[][]matriz ) {
+    def findVerticalPartners(def row, def col, Integer[][]matriz ) {
         def counter = 0
         List response = []
          while(counter<matriz.length){
-          println "row" +matriz[counter][col]
-         response << matriz[counter][col]
+             if (counter!=row){
+                 response << matriz[counter][col]
+             }
              counter++
         }
         response

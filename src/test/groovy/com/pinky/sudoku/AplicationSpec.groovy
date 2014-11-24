@@ -15,7 +15,7 @@ class AplicationSpec extends Specification {
         when:
          def response = aplication.main()
         then:
-        assert !response
+        assert response == [true, false]
     }
 
     void "must open a file"(){
@@ -264,15 +264,12 @@ class AplicationSpec extends Specification {
                [9, 5, 4, 8, 2, 3, 1, 7, 6,] ]//8
         and:"givin a col"
           Integer col = 1
+          Integer row = 1
         when:
-         def response = aplication.findVerticalPartners(col,matrix)
+         def response = aplication.findVerticalPartners(row,col,matrix)
         then:
-         assert response == [4,7,6,9,8,2,3,1,5]
-
-
-
+         assert response == [4,6,9,8,2,3,1,5]
     }
-
 
 
 }
