@@ -88,10 +88,10 @@ class Grid {
 
     private List setIndex(int row, int col, int fact, List<List> limits ) {
 
-        def inferiorLimitRow = limits.first().get(0)
-        def inferiorLimitCol = limits.first().get(1)
-        def superiorLimitRow = limits.get(1).get(0)
-        def superiorLimitCol = limits.get(1).get(1)
+        int inferiorLimitRow = limits.first().get(0)
+        int inferiorLimitCol = limits.first().get(1)
+        int superiorLimitRow = limits.get(1).get(0)
+        int superiorLimitCol = limits.get(1).get(1)
 
 
         int rowStart = Math.max(row - 1, inferiorLimitRow) // limite inferior row
@@ -114,14 +114,7 @@ class Grid {
     }
 
     List findLimits(int row, int col, List<Integer> axis) {
-          def inicialLimitRow
-          def inicialLimitCol
-          def finalLimitRow
-          def finalLimitCol
-        (inicialLimitRow, inicialLimitCol) = findInferiorLimit(axis, row, col)
-        (finalLimitRow, finalLimitCol) = findSuperiorLimit(axis, row, col)
-        [ [inicialLimitRow,inicialLimitCol],[finalLimitRow,finalLimitCol]]
-
+        [ findInferiorLimit(axis, row, col),findSuperiorLimit(axis, row, col)]
     }
 
     private List findInferiorLimit(List<Integer> axis, int row, int col) {
@@ -141,12 +134,7 @@ class Grid {
     }
 
     private List findSuperiorLimit(List<Integer> axis, int row, int col) {
-
-         def finalLimitRow = (axis.findAll { it > row }).min()?:row
-
-         def finalLimitCol = axis.findAll { it > col }.min()?:col
-
-        [finalLimitRow, finalLimitCol]
+        [(axis.findAll { it > row }).min()?:row, axis.findAll { it > col }.min()?:col]
     }
 
     def findVerticalPartners(def row, def col, Integer[][]matriz ) {
